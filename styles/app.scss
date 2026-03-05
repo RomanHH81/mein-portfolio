@@ -24,6 +24,12 @@ body {
   // Custom cursor only for precise pointer devices (mouse), not touch
   @media (pointer: fine) {
     cursor: none;
+
+    a,
+    button,
+    [data-cursor-hover] {
+      cursor: none;
+    }
   }
 }
 
