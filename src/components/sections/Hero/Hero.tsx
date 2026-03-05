@@ -11,7 +11,7 @@ const stats = [
 ];
 
 export default function Hero() {
-  const sectionRef = useRef<HTMLElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -23,15 +23,15 @@ export default function Hero() {
       { threshold: 0.12 },
     );
 
-    const reveals = sectionRef.current?.querySelectorAll('.reveal') ?? [];
+    const reveals = wrapperRef.current?.querySelectorAll('.reveal') ?? [];
     reveals.forEach((el) => observer.observe(el));
 
     return () => observer.disconnect();
   }, []);
 
   return (
-    <>
-      <section id="hero" className={styles.hero} aria-labelledby="hero-heading" ref={sectionRef}>
+    <div ref={wrapperRef}>
+      <section id="hero" className={styles.hero} aria-labelledby="hero-heading">
         <div className={styles.tag} aria-hidden="true">
           Freelance · Automatisierung · KI · Web
         </div>
@@ -64,6 +64,6 @@ export default function Hero() {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }
