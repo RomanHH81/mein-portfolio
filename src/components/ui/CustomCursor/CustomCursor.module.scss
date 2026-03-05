@@ -1,0 +1,39 @@
+@use '../../../../styles/settings' as s;
+@use '../../../../styles/mixins' as m;
+
+.cursor {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  background: s.$accent;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition:
+    width 0.2s,
+    height 0.2s,
+    background 0.2s;
+  mix-blend-mode: exclusion;
+
+  @include m.respond-to(md) {
+    display: none;
+  }
+}
+
+.ring {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  border: 1px solid s.$accent;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: all 0.12s ease;
+  opacity: 0.5;
+
+  @include m.respond-to(md) {
+    display: none;
+  }
+}

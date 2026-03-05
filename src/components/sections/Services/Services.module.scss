@@ -1,0 +1,130 @@
+@use '../../../../styles/settings' as s;
+@use '../../../../styles/mixins' as m;
+
+.services {
+  padding: 8rem 4rem;
+  position: relative;
+  z-index: 1;
+
+  @include m.respond-to(md) {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 4rem;
+}
+
+.sectionLabel {
+  font-family: s.$font-mono;
+  font-size: 0.7rem;
+  color: s.$accent;
+  letter-spacing: s.$ls-3xl;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.sectionTitle {
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  font-weight: s.$fw-extrabold;
+  letter-spacing: -0.03em;
+  line-height: s.$lh-heading;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5px;
+  background: s.$border;
+
+  @include m.respond-to(md) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: s.$card;
+  padding: 3rem;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.3s;
+  cursor: none;
+
+  @include m.respond-to(md) {
+    cursor: auto;
+  }
+
+  &:hover {
+    background: s.$card-hover;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 0;
+    background: s.$accent;
+    transition: height 0.4s ease;
+  }
+
+  &:hover::before {
+    height: 100%;
+  }
+}
+
+.cardWide {
+  grid-column: 1 / -1;
+
+  @include m.respond-to(md) {
+    grid-column: auto;
+  }
+}
+
+.cardNumber {
+  font-family: s.$font-mono;
+  font-size: 0.65rem;
+  color: s.$muted;
+  letter-spacing: s.$ls-2xl;
+  margin-bottom: 2rem;
+}
+
+.cardIcon {
+  font-size: 2rem;
+  margin-bottom: 1.25rem;
+  display: block;
+}
+
+.cardTitle {
+  font-size: s.$fs-2xl;
+  font-weight: s.$fw-bold;
+  margin-bottom: 0.75rem;
+}
+
+.cardDesc {
+  font-size: s.$fs-body;
+  line-height: s.$lh-body;
+  color: s.$muted;
+  margin-bottom: 1.5rem;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  font-family: s.$font-mono;
+  font-size: s.$fs-xs;
+  color: s.$accent;
+  border: 1px solid s.$accent-border;
+  padding: 0.25rem 0.6rem;
+  letter-spacing: s.$ls-md;
+  text-transform: uppercase;
+}

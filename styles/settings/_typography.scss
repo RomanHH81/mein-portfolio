@@ -1,0 +1,95 @@
+// Local font declarations
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/SpaceMono-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/SpaceMono-Italic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Space Mono';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/SpaceMono-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Syne';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/Syne-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Syne';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/Syne-SemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Syne';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/Syne-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Syne';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('/fonts/Syne-ExtraBold.ttf') format('truetype');
+}
+
+// Font stacks
+$font-body: 'Syne', sans-serif;
+$font-mono: 'Space Mono', monospace;
+
+// Font sizes
+$fs-xs: 0.62rem;
+$fs-sm: 0.65rem;
+$fs-base: 0.78rem;
+$fs-md: 0.85rem;
+$fs-body: 0.92rem;
+$fs-lg: 1rem;
+$fs-xl: 1.05rem;
+$fs-2xl: 1.4rem;
+$fs-3xl: 2.5rem;
+
+// Font weights
+$fw-regular: 400;
+$fw-semibold: 600;
+$fw-bold: 700;
+$fw-extrabold: 800;
+
+// Line heights
+$lh-tight: 1.05;
+$lh-heading: 1.1;
+$lh-body: 1.65;
+$lh-relaxed: 1.7;
+$lh-loose: 1.8;
+$lh-double: 2;
+
+// Letter spacings
+$ls-tight: -0.04em;
+$ls-normal: 0;
+$ls-sm: 0.05em;
+$ls-md: 0.08em;
+$ls-lg: 0.1em;
+$ls-xl: 0.12em;
+$ls-2xl: 0.15em;
+$ls-3xl: 0.2em;

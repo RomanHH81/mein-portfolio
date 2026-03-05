@@ -1,0 +1,9 @@
+@use 'base' as *;
+
+$spacings: (
+  sm:  $base-unit,        // 8px
+  md:  $base-unit * 2,    // 16px
+  lg:  $base-unit * 3,    // 24px
+  xl:  $base-unit * 4,    // 32px
+  xxl: $base-unit * 5,    // 40px
+);

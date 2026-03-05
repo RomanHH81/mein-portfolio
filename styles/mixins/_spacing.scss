@@ -1,0 +1,38 @@
+@use 'sass:map';
+@use '../settings' as s;
+
+@function space($key) {
+  @return map.get(s.$spacings, $key);
+}
+
+@mixin padding($key) {
+  padding: space($key);
+}
+
+@mixin padding-x($key) {
+  padding-left: space($key);
+  padding-right: space($key);
+}
+
+@mixin padding-y($key) {
+  padding-top: space($key);
+  padding-bottom: space($key);
+}
+
+@mixin margin($key) {
+  margin: space($key);
+}
+
+@mixin margin-x($key) {
+  margin-left: space($key);
+  margin-right: space($key);
+}
+
+@mixin margin-y($key) {
+  margin-top: space($key);
+  margin-bottom: space($key);
+}
+
+@mixin gap($key) {
+  gap: space($key);
+}

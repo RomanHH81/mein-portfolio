@@ -1,0 +1,24 @@
+@use 'sass:map';
+@use '../settings' as s;
+
+@mixin respond-to($breakpoint) {
+  $value: map.get(s.$breakpoints, $breakpoint);
+  @if $value {
+    @media (max-width: $value) {
+      @content;
+    }
+  } @else {
+    @warn "Unknown breakpoint: #{$breakpoint}";
+  }
+}
+
+@mixin respond-above($breakpoint) {
+  $value: map.get(s.$breakpoints, $breakpoint);
+  @if $value {
+    @media (min-width: #{$value + 1}) {
+      @content;
+    }
+  } @else {
+    @warn "Unknown breakpoint: #{$breakpoint}";
+  }
+}
