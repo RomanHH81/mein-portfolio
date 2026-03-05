@@ -1,0 +1,1290 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Roman — Workflow-Automatisierung & Web-Entwicklung aus Norddeutschland
+    </title>
+    <meta
+      name="description"
+      content="Freelancer aus Norddeutschland: Workflow-Automatisierung mit n8n, DSGVO-konforme Websites, Self-hosted Infrastruktur und Content-Design. Jetzt Projekt anfragen."
+    />
+    <meta name="robots" content="index, follow" />
+    <meta
+      property="og:title"
+      content="Roman — Automatisierung & digitale Lösungen"
+    />
+    <meta
+      property="og:description"
+      content="Workflow-Automatisierung, Web-Entwicklung und Self-hosted Infrastruktur — DSGVO-konform, made in Norddeutschland."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="de_DE" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Skip to content */
+      .skip-link {
+        position: absolute;
+        top: -100px;
+        left: 1rem;
+        background: var(--accent);
+        color: #000;
+        font-family: "Space Mono", monospace;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 0.6rem 1.2rem;
+        z-index: 10000;
+        text-decoration: none;
+        letter-spacing: 0.08em;
+        transition: top 0.2s;
+      }
+      .skip-link:focus {
+        top: 1rem;
+      }
+
+      /* Focus styles for keyboard nav */
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
+
+      /* Fix muted contrast — lightened for WCAG AA */
+      :root {
+        --bg: #0a0a0f;
+        --surface: #111118;
+        --border: #1e1e2e;
+        --accent: #00e5a0;
+        --accent2: #0066ff;
+        --text: #e8e8f0;
+        --muted: #9898ac;
+        --card: #13131c;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Syne", sans-serif;
+        overflow-x: hidden;
+        cursor: none;
+      }
+
+      /* Custom cursor */
+      .cursor {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        background: var(--accent);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        transform: translate(-50%, -50%);
+        transition:
+          width 0.2s,
+          height 0.2s,
+          background 0.2s;
+        mix-blend-mode: exclusion;
+      }
+      .cursor-ring {
+        position: fixed;
+        width: 36px;
+        height: 36px;
+        border: 1px solid var(--accent);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translate(-50%, -50%);
+        transition: all 0.12s ease;
+        opacity: 0.5;
+      }
+      body:hover .cursor {
+        opacity: 1;
+      }
+
+      /* Grid background */
+      .grid-bg {
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(rgba(0, 229, 160, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 229, 160, 0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      /* Nav */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem 4rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        backdrop-filter: blur(20px);
+        background: rgba(10, 10, 15, 0.8);
+      }
+
+      .nav-logo {
+        font-family: "Space Mono", monospace;
+        font-size: 0.85rem;
+        color: var(--accent);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2.5rem;
+        list-style: none;
+      }
+
+      .nav-links a {
+        font-family: "Space Mono", monospace;
+        font-size: 0.75rem;
+        color: var(--muted);
+        text-decoration: none;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        transition: color 0.2s;
+      }
+      .nav-links a:hover {
+        color: var(--accent);
+      }
+
+      /* Sections */
+      section {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* Hero */
+      #hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0 4rem;
+        padding-top: 100px;
+      }
+
+      .hero-tag {
+        font-family: "Space Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--accent);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 2rem;
+        opacity: 0;
+        animation: fadeUp 0.6s forwards 0.2s;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      .hero-tag::before {
+        content: "";
+        display: inline-block;
+        width: 2rem;
+        height: 1px;
+        background: var(--accent);
+      }
+
+      .hero-headline {
+        font-size: clamp(3.5rem, 8vw, 7.5rem);
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        margin-bottom: 2.5rem;
+        opacity: 0;
+        animation: fadeUp 0.7s forwards 0.35s;
+      }
+
+      .hero-headline .line2 {
+        color: transparent;
+        -webkit-text-stroke: 1px rgba(232, 232, 240, 0.3);
+      }
+
+      .hero-headline .accent-word {
+        color: var(--accent);
+        position: relative;
+      }
+
+      .hero-sub {
+        max-width: 520px;
+        font-size: 1.05rem;
+        line-height: 1.7;
+        color: var(--muted);
+        margin-bottom: 3rem;
+        opacity: 0;
+        animation: fadeUp 0.7s forwards 0.5s;
+      }
+
+      .hero-cta {
+        display: flex;
+        gap: 1rem;
+        opacity: 0;
+        animation: fadeUp 0.7s forwards 0.65s;
+      }
+
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        background: var(--accent);
+        color: #000;
+        font-family: "Space Mono", monospace;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 0.9rem 2rem;
+        text-decoration: none;
+        transition: all 0.2s;
+        clip-path: polygon(
+          0 0,
+          calc(100% - 12px) 0,
+          100% 12px,
+          100% 100%,
+          12px 100%,
+          0 calc(100% - 12px)
+        );
+      }
+      .btn-primary:hover {
+        background: #fff;
+        transform: translateY(-2px);
+      }
+
+      .btn-secondary {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.6rem;
+        border: 1px solid var(--border);
+        color: var(--muted);
+        font-family: "Space Mono", monospace;
+        font-size: 0.78rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        padding: 0.9rem 2rem;
+        text-decoration: none;
+        transition: all 0.2s;
+      }
+      .btn-secondary:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
+      .hero-scroll {
+        position: absolute;
+        bottom: 2.5rem;
+        right: 4rem;
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        color: var(--muted);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        writing-mode: vertical-rl;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        opacity: 0;
+        animation: fadeIn 1s forwards 1s;
+      }
+      .hero-scroll::after {
+        content: "";
+        display: block;
+        width: 1px;
+        height: 60px;
+        background: linear-gradient(var(--accent), transparent);
+      }
+
+      /* Stats bar */
+      .stats-bar {
+        position: relative;
+        z-index: 1;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        background: var(--surface);
+      }
+
+      .stat-item {
+        flex: 1;
+        padding: 2rem 3rem;
+        border-right: 1px solid var(--border);
+      }
+      .stat-item:last-child {
+        border-right: none;
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        color: var(--accent);
+        letter-spacing: -0.04em;
+        line-height: 1;
+        margin-bottom: 0.4rem;
+      }
+
+      .stat-label {
+        font-family: "Space Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--muted);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      /* Services */
+      #services {
+        padding: 8rem 4rem;
+      }
+
+      .section-header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        margin-bottom: 4rem;
+      }
+
+      .section-label {
+        font-family: "Space Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--accent);
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 0.75rem;
+      }
+
+      .section-title {
+        font-size: clamp(2.2rem, 4vw, 3.5rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+      }
+
+      .services-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5px;
+        background: var(--border);
+      }
+
+      .service-card.wide {
+        grid-column: 1 / -1;
+      }
+
+      .service-card {
+        background: var(--card);
+        padding: 3rem;
+        position: relative;
+        overflow: hidden;
+        transition: background 0.3s;
+        cursor: none;
+      }
+      .service-card:hover {
+        background: #16161f;
+      }
+
+      .service-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 3px;
+        height: 0;
+        background: var(--accent);
+        transition: height 0.4s ease;
+      }
+      .service-card:hover::before {
+        height: 100%;
+      }
+
+      .service-number {
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        color: var(--muted);
+        letter-spacing: 0.15em;
+        margin-bottom: 2rem;
+      }
+
+      .service-icon {
+        font-size: 2rem;
+        margin-bottom: 1.25rem;
+        display: block;
+      }
+
+      .service-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+      }
+
+      .service-desc {
+        font-size: 0.92rem;
+        line-height: 1.65;
+        color: var(--muted);
+        margin-bottom: 1.5rem;
+      }
+
+      .service-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      .tag {
+        font-family: "Space Mono", monospace;
+        font-size: 0.62rem;
+        color: var(--accent);
+        border: 1px solid rgba(0, 229, 160, 0.2);
+        padding: 0.25rem 0.6rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      /* About */
+      #about {
+        padding: 8rem 4rem;
+        background: var(--surface);
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6rem;
+        align-items: center;
+      }
+
+      .about-text p {
+        font-size: 1rem;
+        line-height: 1.8;
+        color: var(--muted);
+        margin-bottom: 1.25rem;
+      }
+
+      .about-text p strong {
+        color: var(--text);
+        font-weight: 600;
+      }
+
+      .about-visual {
+        position: relative;
+      }
+
+      .terminal {
+        background: #0d0d14;
+        border: 1px solid var(--border);
+        font-family: "Space Mono", monospace;
+        font-size: 0.78rem;
+        overflow: hidden;
+      }
+
+      .terminal-bar {
+        background: var(--border);
+        padding: 0.6rem 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .terminal-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+      .dot-red {
+        background: #ff5f56;
+      }
+      .dot-yellow {
+        background: #ffbd2e;
+      }
+      .dot-green {
+        background: #27c93f;
+      }
+
+      .terminal-title {
+        font-size: 0.65rem;
+        color: var(--muted);
+        letter-spacing: 0.08em;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .terminal-body {
+        padding: 1.5rem;
+        line-height: 2;
+      }
+
+      .t-prompt {
+        color: var(--accent);
+      }
+      .t-cmd {
+        color: var(--text);
+      }
+      .t-output {
+        color: var(--muted);
+      }
+      .t-highlight {
+        color: #0066ff;
+      }
+      .t-success {
+        color: var(--accent);
+      }
+
+      .cursor-blink {
+        display: inline-block;
+        width: 8px;
+        height: 1.1em;
+        background: var(--accent);
+        vertical-align: text-bottom;
+        animation: blink 1s step-end infinite;
+      }
+
+      /* Stack */
+      .stack-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        margin-top: 2rem;
+      }
+
+      .stack-item {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        font-family: "Space Mono", monospace;
+        font-size: 0.72rem;
+        color: var(--muted);
+        letter-spacing: 0.05em;
+      }
+
+      .stack-item::before {
+        content: "▸";
+        color: var(--accent);
+        font-size: 0.6rem;
+      }
+
+      /* Contact */
+      #contact {
+        padding: 8rem 4rem;
+      }
+
+      .contact-inner {
+        max-width: 700px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .contact-inner .section-label {
+        display: block;
+        margin-bottom: 0.75rem;
+      }
+
+      .contact-headline {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+      }
+
+      .contact-sub {
+        font-size: 1rem;
+        color: var(--muted);
+        line-height: 1.7;
+        margin-bottom: 3rem;
+      }
+
+      .contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        text-align: left;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .form-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+
+      .form-field label {
+        font-family: "Space Mono", monospace;
+        font-size: 0.65rem;
+        color: var(--muted);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .form-field input,
+      .form-field textarea,
+      .form-field select {
+        background: var(--card);
+        border: 1px solid var(--border);
+        color: var(--text);
+        font-family: "Syne", sans-serif;
+        font-size: 0.92rem;
+        padding: 0.8rem 1rem;
+        outline: none;
+        transition: border-color 0.2s;
+        appearance: none;
+        cursor: none;
+      }
+
+      .form-field input:focus,
+      .form-field textarea:focus,
+      .form-field select:focus {
+        border-color: var(--accent);
+      }
+
+      .form-field textarea {
+        resize: vertical;
+        min-height: 130px;
+      }
+
+      .form-field select option {
+        background: var(--card);
+      }
+
+      .submit-row {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 0.5rem;
+      }
+
+      /* Footer */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 2rem 4rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--surface);
+      }
+
+      .footer-left {
+        font-family: "Space Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--muted);
+        letter-spacing: 0.08em;
+      }
+
+      .footer-right {
+        font-family: "Space Mono", monospace;
+        font-size: 0.7rem;
+        color: var(--muted);
+        letter-spacing: 0.08em;
+      }
+
+      .footer-right a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      /* Animations */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes blink {
+        50% {
+          opacity: 0;
+        }
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Noise overlay */
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+        pointer-events: none;
+        z-index: 9997;
+        opacity: 0.4;
+      }
+
+      /* Hamburger menu */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+      }
+      .hamburger span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: var(--text);
+        transition: all 0.3s;
+      }
+      .hamburger[aria-expanded="true"] span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+      }
+      .hamburger[aria-expanded="true"] span:nth-child(2) {
+        opacity: 0;
+      }
+      .hamburger[aria-expanded="true"] span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+      }
+
+      /* Mobile */
+      @media (max-width: 768px) {
+        nav {
+          padding: 1.25rem 1.5rem;
+        }
+        .hamburger {
+          display: flex;
+        }
+        .nav-links {
+          display: none;
+          position: fixed;
+          top: 64px;
+          left: 0;
+          right: 0;
+          flex-direction: column;
+          background: rgba(10, 10, 15, 0.98);
+          backdrop-filter: blur(20px);
+          border-bottom: 1px solid var(--border);
+          padding: 1.5rem;
+          gap: 1.25rem;
+        }
+        .nav-links.open {
+          display: flex;
+        }
+        .nav-links a {
+          font-size: 1rem;
+        }
+        #hero,
+        #services,
+        #about,
+        #contact {
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
+        }
+        .hero-headline {
+          font-size: clamp(2.8rem, 12vw, 4rem);
+        }
+        .services-grid {
+          grid-template-columns: 1fr;
+        }
+        .about-grid {
+          grid-template-columns: 1fr;
+          gap: 3rem;
+        }
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+        .stats-bar {
+          flex-direction: column;
+        }
+        .stat-item {
+          border-right: none;
+          border-bottom: 1px solid var(--border);
+        }
+        footer {
+          flex-direction: column;
+          gap: 0.5rem;
+          text-align: center;
+          padding: 1.5rem;
+        }
+        body {
+          cursor: auto;
+        }
+        .cursor,
+        .cursor-ring {
+          display: none;
+        }
+        .hero-scroll {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorRing"></div>
+    <div class="grid-bg"></div>
+
+    <a href="#main" class="skip-link">Zum Inhalt springen</a>
+
+    <!-- NAV -->
+    <nav aria-label="Hauptnavigation">
+      <div class="nav-logo" aria-label="Roman, Freelancer">
+        Roman_.<span style="color: var(--muted)">dev</span>
+      </div>
+      <ul class="nav-links" id="nav-menu" role="list">
+        <li><a href="#services">Leistungen</a></li>
+        <li><a href="#about">Über mich</a></li>
+        <li><a href="#contact">Kontakt</a></li>
+      </ul>
+      <button
+        class="hamburger"
+        aria-controls="nav-menu"
+        aria-expanded="false"
+        aria-label="Menü öffnen"
+      >
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <!-- HERO -->
+    <section id="hero" aria-labelledby="hero-heading">
+      <main id="main">
+        <div class="hero-tag" aria-hidden="true">
+          Freelance · Automatisierung · KI · Web
+        </div>
+        <h1 class="hero-headline" id="hero-heading">
+          Systeme,<br />
+          <span class="line2">die einfach</span><br />
+          <span class="accent-word">laufen.</span>
+        </h1>
+        <p class="hero-sub">
+          Automatisierte Workflows, professionelle Websites und smarte
+          Infrastruktur — DSGVO-konform, self-hosted und auf dein Business
+          zugeschnitten.
+        </p>
+        <div class="hero-cta">
+          <a href="#contact" class="btn-primary">Projekt anfragen →</a>
+          <a href="#services" class="btn-secondary">Leistungen ansehen</a>
+        </div>
+        <div class="hero-scroll" aria-hidden="true">Scroll</div>
+      </main>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats-bar">
+      <div class="stat-item reveal">
+        <div class="stat-number">100%</div>
+        <div class="stat-label">DSGVO-konform</div>
+      </div>
+      <div class="stat-item reveal" style="transition-delay: 0.1s">
+        <div class="stat-number">Self-hosted</div>
+        <div class="stat-label">Deine Daten, dein Server</div>
+      </div>
+      <div class="stat-item reveal" style="transition-delay: 0.2s">
+        <div class="stat-number">n8n + mehr</div>
+        <div class="stat-label">Moderne Tech-Stack</div>
+      </div>
+      <div class="stat-item reveal" style="transition-delay: 0.3s">
+        <div class="stat-number">Nord DE</div>
+        <div class="stat-label">Ansässig in Norddeutschland</div>
+      </div>
+    </div>
+
+    <!-- SERVICES -->
+    <section id="services">
+      <div class="section-header reveal">
+        <div>
+          <div class="section-label">Was ich mache</div>
+          <h2 class="section-title">Leistungen</h2>
+        </div>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <div class="service-number">01 /</div>
+          <span class="service-icon" aria-hidden="true">⚙️</span>
+          <h3 class="service-title">Workflow-Automatisierung</h3>
+          <p class="service-desc">
+            Manuelle, wiederholende Prozesse kosten Zeit und Nerven. Ich
+            automatisiere sie — von Lead-Management über E-Mail-Parsing bis zur
+            Terminbuchung. Alles auf deiner eigenen Infrastruktur.
+          </p>
+          <div class="service-tags">
+            <span class="tag">n8n</span>
+            <span class="tag">Webhooks</span>
+            <span class="tag">NocoDB</span>
+            <span class="tag">CalDAV</span>
+            <span class="tag">Telegram</span>
+            <span class="tag">API-Integration</span>
+          </div>
+        </div>
+
+        <div class="service-card reveal" style="transition-delay: 0.1s">
+          <div class="service-number">02 /</div>
+          <span class="service-icon" aria-hidden="true">🌐</span>
+          <h3 class="service-title">Web-Entwicklung</h3>
+          <p class="service-desc">
+            Professionelle Websites für kleine und mittlere Unternehmen.
+            Schnell, sauber, DSGVO-ready — mit integrierten Kontaktformularen
+            und direkter Anbindung an deine Workflows.
+          </p>
+          <div class="service-tags">
+            <span class="tag">HTML/CSS/JS</span>
+            <span class="tag">Responsive</span>
+            <span class="tag">DSGVO</span>
+            <span class="tag">Self-hosted</span>
+            <span class="tag">Formulare</span>
+          </div>
+        </div>
+
+        <div class="service-card reveal" style="transition-delay: 0.15s">
+          <div class="service-number">03 /</div>
+          <span class="service-icon" aria-hidden="true">🎨</span>
+          <h3 class="service-title">Content & Design</h3>
+          <p class="service-desc">
+            Vom Social-Media-Beitrag bis zum kurzen Promo-Video: Ich erstelle
+            visuell ansprechende Inhalte, die zu deiner Marke passen — mit Canva
+            für Grafiken und DaVinci Resolve für Video-Schnitt.
+          </p>
+          <div class="service-tags">
+            <span class="tag">Canva</span>
+            <span class="tag">DaVinci Resolve</span>
+            <span class="tag">Social Media</span>
+            <span class="tag">Video-Editing</span>
+            <span class="tag">Grafik</span>
+          </div>
+        </div>
+
+        <div class="service-card reveal" style="transition-delay: 0.2s">
+          <div class="service-number">04 /</div>
+          <span class="service-icon" aria-hidden="true">🖥️</span>
+          <h3 class="service-title">Infrastruktur & Hosting</h3>
+          <p class="service-desc">
+            Kein Cloudabhängigkeit, keine unnötigen Datenwege. Ich betreibe und
+            konfiguriere selbst-gehostete Server-Umgebungen für Unternehmen, die
+            volle Kontrolle über ihre Daten wollen.
+          </p>
+          <div class="service-tags">
+            <span class="tag">Proxmox</span>
+            <span class="tag">Nextcloud</span>
+            <span class="tag">Tailscale</span>
+            <span class="tag">Linux</span>
+            <span class="tag">Backup</span>
+          </div>
+        </div>
+        <div class="service-card wide reveal" style="transition-delay: 0.25s">
+          <div class="service-number">05 /</div>
+          <span class="service-icon" aria-hidden="true">🤖</span>
+          <h3 class="service-title">KI-Integration & Smart Home</h3>
+          <p class="service-desc">
+            Von lokalen KI-Modellen bis zur Heimautomatisierung: Ich integriere
+            intelligente Assistenten in bestehende Systeme — ob als smarter
+            Workflow-Baustein oder als vollwertiges Home-Assistant-Setup, das
+            ohne Cloud auskommt.
+          </p>
+          <div class="service-tags">
+            <span class="tag">Home Assistant</span>
+            <span class="tag">Lokale KI</span>
+            <span class="tag">Automatisierung</span>
+            <span class="tag">Self-hosted</span>
+            <span class="tag">Integrationen</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <div class="section-label">Wer ich bin</div>
+          <h2 class="section-title" style="margin-bottom: 2rem">
+            Hinter den<br />Kulissen
+          </h2>
+          <p>
+            Ich bin Roman — Freelancer aus Norddeutschland, der sich auf die
+            <strong
+              >Schnittstelle zwischen Automatisierung, Web und digitaler
+              Infrastruktur</strong
+            >
+            spezialisiert hat.
+          </p>
+          <p>
+            Was mich antreibt: Lösungen bauen, die tatsächlich funktionieren.
+            Nicht nur technisch sauber, sondern auch
+            <strong>DSGVO-konform, wartbar und zukunftssicher</strong>. Daten
+            bleiben auf deinen Servern — nicht bei irgendwelchen Drittanbietern.
+          </p>
+          <p>
+            Neben der Technik bringe ich auch ein Gespür für Gestaltung mit: von
+            ansprechenden Grafiken bis zu geschnittenen Videos für deine
+            digitale Präsenz.
+          </p>
+
+          <div class="stack-list">
+            <div class="stack-item">n8n Automatisierung</div>
+            <div class="stack-item">Nextcloud / CalDAV</div>
+            <div class="stack-item">Proxmox / Linux</div>
+            <div class="stack-item">NocoDB / REST APIs</div>
+            <div class="stack-item">HTML · CSS · JS</div>
+            <div class="stack-item">Tailscale VPN</div>
+            <div class="stack-item">Home Assistant</div>
+            <div class="stack-item">Lokale KI-Modelle</div>
+            <div class="stack-item">Canva Design</div>
+            <div class="stack-item">DaVinci Resolve</div>
+          </div>
+        </div>
+
+        <div class="about-visual reveal" style="transition-delay: 0.15s">
+          <div class="terminal">
+            <div class="terminal-bar">
+              <div class="terminal-dot dot-red"></div>
+              <div class="terminal-dot dot-yellow"></div>
+              <div class="terminal-dot dot-green"></div>
+              <div class="terminal-title">roman@workstation:~</div>
+            </div>
+            <div class="terminal-body">
+              <div>
+                <span class="t-prompt">roman@ws:~$</span>
+                <span class="t-cmd">whoami</span>
+              </div>
+              <div class="t-output">
+                Freelancer · Automatisierer · Webentwickler
+              </div>
+              <br />
+              <div>
+                <span class="t-prompt">roman@ws:~$</span>
+                <span class="t-cmd">cat skills.txt</span>
+              </div>
+              <div class="t-highlight">
+                → Workflow Automation (n8n, Webhooks)
+              </div>
+              <div class="t-highlight">→ Web Development (HTML, CSS, JS)</div>
+              <div class="t-highlight">→ Self-hosted Infrastructure</div>
+              <div class="t-highlight">→ KI-Integration & Smart Home</div>
+              <br />
+              <div>
+                <span class="t-prompt">roman@ws:~$</span>
+                <span class="t-cmd">cat values.txt</span>
+              </div>
+              <div class="t-success">✓ DSGVO-konform by design</div>
+              <div class="t-success">✓ Daten auf deinen Servern</div>
+              <div class="t-success">✓ Lösungen, die tatsächlich laufen</div>
+              <br />
+              <div>
+                <span class="t-prompt">roman@ws:~$</span>
+                <span class="t-cmd">status</span>
+              </div>
+              <div class="t-success">● Verfügbar für neue Projekte</div>
+              <div><span class="cursor-blink"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="contact-inner">
+        <span class="section-label reveal">Jetzt starten</span>
+        <h2 class="contact-headline reveal">Lass uns reden.</h2>
+        <p class="contact-sub reveal">
+          Du hast ein Projekt, ein Problem oder eine Idee? Schreib mir — ich
+          melde mich in der Regel innerhalb von 24 Stunden.
+        </p>
+
+        <form class="contact-form reveal" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-field">
+              <label for="field-name">Name</label>
+              <input
+                id="field-name"
+                type="text"
+                placeholder="Max Mustermann"
+                required
+                autocomplete="name"
+              />
+            </div>
+            <div class="form-field">
+              <label for="field-email">E-Mail</label>
+              <input
+                id="field-email"
+                type="email"
+                placeholder="max@beispiel.de"
+                required
+                autocomplete="email"
+              />
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="field-service">Ich interessiere mich für …</label>
+            <select id="field-service">
+              <option value="">Bitte wählen</option>
+              <option>Workflow-Automatisierung</option>
+              <option>Web-Entwicklung</option>
+              <option>Content & Design</option>
+              <option>Infrastruktur & Hosting</option>
+              <option>Mehreres / Noch unklar</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="field-message">Nachricht</label>
+            <textarea
+              id="field-message"
+              placeholder="Kurze Beschreibung deines Projekts oder deiner Anfrage …"
+            ></textarea>
+          </div>
+          <div class="submit-row">
+            <button type="submit" class="btn-primary">
+              Nachricht senden →
+            </button>
+          </div>
+        </form>
+
+        <div
+          id="form-success"
+          style="display: none; margin-top: 2rem; text-align: center"
+        >
+          <div style="font-size: 2rem; margin-bottom: 1rem">✓</div>
+          <p
+            style="
+              font-family: &quot;Space Mono&quot;, monospace;
+              font-size: 0.85rem;
+              color: var(--accent);
+              letter-spacing: 0.1em;
+            "
+          >
+            NACHRICHT GESENDET — ICH MELDE MICH BALD!
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-left">© 2026 Roman · Freelancer · Norddeutschland</div>
+      <div class="footer-right">
+        <a href="#">Impressum</a> &nbsp;·&nbsp; <a href="#">Datenschutz</a>
+      </div>
+    </footer>
+
+    <script>
+      // Hamburger menu
+      const hamburger = document.querySelector(".hamburger");
+      const navMenu = document.getElementById("nav-menu");
+      hamburger.addEventListener("click", () => {
+        const isOpen = navMenu.classList.toggle("open");
+        hamburger.setAttribute("aria-expanded", isOpen);
+        hamburger.setAttribute(
+          "aria-label",
+          isOpen ? "Menü schließen" : "Menü öffnen",
+        );
+      });
+      // Close menu on link click
+      navMenu.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          navMenu.classList.remove("open");
+          hamburger.setAttribute("aria-expanded", "false");
+        });
+      });
+
+      // Custom cursor
+      const cursor = document.getElementById("cursor");
+      const ring = document.getElementById("cursorRing");
+      let mx = 0,
+        my = 0,
+        rx = 0,
+        ry = 0;
+
+      document.addEventListener("mousemove", (e) => {
+        mx = e.clientX;
+        my = e.clientY;
+        cursor.style.left = mx + "px";
+        cursor.style.top = my + "px";
+      });
+
+      function animateRing() {
+        rx += (mx - rx) * 0.15;
+        ry += (my - ry) * 0.15;
+        ring.style.left = rx + "px";
+        ring.style.top = ry + "px";
+        requestAnimationFrame(animateRing);
+      }
+      animateRing();
+
+      document.querySelectorAll("a, button, .service-card").forEach((el) => {
+        el.addEventListener("mouseenter", () => {
+          cursor.style.width = "18px";
+          cursor.style.height = "18px";
+          ring.style.width = "50px";
+          ring.style.height = "50px";
+        });
+        el.addEventListener("mouseleave", () => {
+          cursor.style.width = "10px";
+          cursor.style.height = "10px";
+          ring.style.width = "36px";
+          ring.style.height = "36px";
+        });
+      });
+
+      // Scroll reveal
+      const reveals = document.querySelectorAll(".reveal");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("visible");
+            }
+          });
+        },
+        { threshold: 0.12 },
+      );
+      reveals.forEach((el) => observer.observe(el));
+
+      // Form submit (demo)
+      function handleSubmit(e) {
+        e.preventDefault();
+        e.target.style.display = "none";
+        document.getElementById("form-success").style.display = "block";
+      }
+    </script>
+  </body>
+</html>
