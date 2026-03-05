@@ -46,8 +46,17 @@ const services = [
     title: 'KI-Integration & Smart Home',
     desc: 'Von lokalen KI-Modellen bis zur Heimautomatisierung: Ich integriere intelligente Assistenten in bestehende Systeme — ob als smarter Workflow-Baustein oder als vollwertiges Home-Assistant-Setup, das ohne Cloud auskommt.',
     tags: ['Home Assistant', 'Lokale KI', 'Automatisierung', 'Self-hosted', 'Integrationen'],
-    wide: true,
+    wide: false,
     delay: 0.25,
+  },
+  {
+    id: '06',
+    icon: '💡',
+    title: 'Beratung',
+    desc: 'Du weißt, dass in deinem Business Zeit und Ressourcen verschwendet werden – aber nicht genau wo und wie du es änderst. Ich analysiere deine Prozesse und zeige dir konkret, welche digitalen Lösungen dir echten Mehrwert bringen.',
+    tags: ['Prozessanalyse', 'Automatisierungspotenzial', 'Budgetplanung', 'Klare Empfehlung'],
+    wide: false,
+    delay: 0.3,
   },
 ];
 
