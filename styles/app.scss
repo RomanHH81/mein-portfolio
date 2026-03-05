@@ -20,10 +20,10 @@ body {
   color: s.$text;
   font-family: s.$font-body;
   overflow-x: hidden;
-  cursor: none;
 
-  @include m.respond-to(md) {
-    cursor: auto;
+  // Custom cursor only for precise pointer devices (mouse), not touch
+  @media (pointer: fine) {
+    cursor: none;
   }
 }
 
@@ -32,7 +32,6 @@ body::after {
   content: '';
   position: fixed;
   inset: 0;
-  // stylelint-disable-next-line string-quotes
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: 9997;
@@ -56,6 +55,27 @@ body::after {
   &.visible {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+// Respect reduced motion preference
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 

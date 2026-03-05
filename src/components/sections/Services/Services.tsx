@@ -71,32 +71,37 @@ export default function Services() {
   }, []);
 
   return (
-    <section id="services" className={styles.services} ref={sectionRef}>
+    <section
+      id="services"
+      className={styles.services}
+      aria-labelledby="services-heading"
+      ref={sectionRef}
+    >
       <div className={`${styles.sectionHeader} reveal`}>
         <div>
-          <div className={styles.sectionLabel}>Was ich mache</div>
-          <h2 className={styles.sectionTitle}>Leistungen</h2>
+          <div className={styles.sectionLabel} aria-hidden="true">Was ich mache</div>
+          <h2 className={styles.sectionTitle} id="services-heading">Leistungen</h2>
         </div>
       </div>
 
       <div className={styles.grid}>
         {services.map(({ id, icon, title, desc, tags, wide, delay }) => (
-          <div
+          <article
             key={id}
             className={`${styles.card} ${wide ? styles.cardWide : ''} reveal`}
             style={{ transitionDelay: `${delay}s` }}
             data-cursor-hover
           >
-            <div className={styles.cardNumber}>{id} /</div>
+            <div className={styles.cardNumber} aria-hidden="true">{id} /</div>
             <span className={styles.cardIcon} aria-hidden="true">{icon}</span>
             <h3 className={styles.cardTitle}>{title}</h3>
             <p className={styles.cardDesc}>{desc}</p>
-            <div className={styles.tags}>
+            <ul className={styles.tags} aria-label={`Technologien: ${title}`}>
               {tags.map((tag) => (
-                <span key={tag} className={styles.tag}>{tag}</span>
+                <li key={tag} className={styles.tag}>{tag}</li>
               ))}
-            </div>
-          </div>
+            </ul>
+          </article>
         ))}
       </div>
     </section>

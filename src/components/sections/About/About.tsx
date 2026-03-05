@@ -36,11 +36,16 @@ export default function About() {
   }, []);
 
   return (
-    <section id="about" className={styles.about} ref={sectionRef}>
+    <section
+      id="about"
+      className={styles.about}
+      aria-labelledby="about-heading"
+      ref={sectionRef}
+    >
       <div className={styles.grid}>
         <div className={`${styles.text} reveal`}>
-          <div className={styles.sectionLabel}>Wer ich bin</div>
-          <h2 className={styles.sectionTitle}>
+          <div className={styles.sectionLabel} aria-hidden="true">Wer ich bin</div>
+          <h2 className={styles.sectionTitle} id="about-heading">
             Hinter den<br />Kulissen
           </h2>
           <p>
@@ -61,14 +66,19 @@ export default function About() {
             ansprechenden Grafiken bis zu geschnittenen Videos für deine digitale Präsenz.
           </p>
 
-          <div className={styles.stackList}>
+          <ul className={styles.stackList} aria-label="Technologie-Stack">
             {stackItems.map((item) => (
-              <div key={item} className={styles.stackItem}>{item}</div>
+              <li key={item} className={styles.stackItem}>{item}</li>
             ))}
-          </div>
+          </ul>
         </div>
 
-        <div className={`${styles.visual} reveal`} style={{ transitionDelay: '0.15s' }}>
+        {/* Terminal is purely decorative — screen readers skip it */}
+        <div
+          className={`${styles.visual} reveal`}
+          style={{ transitionDelay: '0.15s' }}
+          aria-hidden="true"
+        >
           <div className={styles.terminal}>
             <div className={styles.terminalBar}>
               <div className={`${styles.dot} ${styles.dotRed}`} />

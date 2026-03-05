@@ -29,10 +29,10 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className={styles.contact} ref={sectionRef}>
+    <section id="contact" className={styles.contact} aria-labelledby="contact-heading" ref={sectionRef}>
       <div className={styles.inner}>
-        <span className={`${styles.sectionLabel} reveal`}>Jetzt starten</span>
-        <h2 className={`${styles.headline} reveal`}>Lass uns reden.</h2>
+        <span className={`${styles.sectionLabel} reveal`} aria-hidden="true">Jetzt starten</span>
+        <h2 className={`${styles.headline} reveal`} id="contact-heading">Lass uns reden.</h2>
         <p className={`${styles.sub} reveal`}>
           Du hast ein Projekt, ein Problem oder eine Idee? Schreib mir — ich
           melde mich in der Regel innerhalb von 24 Stunden.

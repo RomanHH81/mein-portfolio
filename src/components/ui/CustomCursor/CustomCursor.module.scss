@@ -1,7 +1,9 @@
 @use '../../../../styles/settings' as s;
 @use '../../../../styles/mixins' as m;
 
+// Only shown for mouse/trackpad users, not touch
 .cursor {
+  display: none;
   position: fixed;
   width: 10px;
   height: 10px;
@@ -16,12 +18,17 @@
     background 0.2s;
   mix-blend-mode: exclusion;
 
-  @include m.respond-to(md) {
+  @media (pointer: fine) {
+    display: block;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
     display: none;
   }
 }
 
 .ring {
+  display: none;
   position: fixed;
   width: 36px;
   height: 36px;
@@ -33,7 +40,11 @@
   transition: all 0.12s ease;
   opacity: 0.5;
 
-  @include m.respond-to(md) {
+  @media (pointer: fine) {
+    display: block;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
     display: none;
   }
 }
