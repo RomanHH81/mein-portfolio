@@ -34,12 +34,14 @@
 }
 
 .title {
-  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-size: clamp(1.6rem, 5vw, 3.5rem);
   font-weight: s.$fw-extrabold;
   letter-spacing: -0.03em;
-  line-height: 1.1;
+  line-height: 1.15;
   margin-bottom: 3rem;
   color: s.$text;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .content {

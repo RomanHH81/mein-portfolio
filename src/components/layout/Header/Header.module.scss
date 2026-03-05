@@ -78,11 +78,15 @@
 .hamburger {
   display: none;
   flex-direction: column;
-  gap: 5px;
+  justify-content: center;
+  gap: 6px;
   background: none;
   border: none;
   cursor: pointer;
-  padding: 4px;
+  // min 44×44px touch target for iOS
+  min-width: 44px;
+  min-height: 44px;
+  padding: 10px;
 
   @include m.respond-to(md) {
     display: flex;
@@ -90,21 +94,23 @@
 
   span {
     display: block;
-    width: 24px;
+    width: 22px;
     height: 2px;
-    background: s.$text;
-    transition: all 0.3s;
+    background: s.$accent;
+    transition: transform 0.3s, opacity 0.2s;
+    border-radius: 1px;
   }
 
   &[aria-expanded='true'] {
     span:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
+      transform: rotate(45deg) translate(0, 8px);
     }
     span:nth-child(2) {
       opacity: 0;
+      transform: scaleX(0);
     }
     span:nth-child(3) {
-      transform: rotate(-45deg) translate(5px, -5px);
+      transform: rotate(-45deg) translate(0, -8px);
     }
   }
 }
